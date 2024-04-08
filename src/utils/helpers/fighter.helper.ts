@@ -4,9 +4,9 @@ import Fighter from "../../interfaces/fighter/Fighter.interface";
 
 const API_URL = `${<string>process.env.API_URL}/fighters`;
 
-export const getFighterNames = async (
-  jwt: string
-): Promise<string[] | void> => {
+export const getFighterNames = async (): Promise<string[] | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const names: string[] | void = await axios
     .get(`${API_URL}/names`, {
       headers: {
@@ -24,7 +24,9 @@ export const getFighterNames = async (
   return names;
 };
 
-export const getFighters = async (jwt: string): Promise<Fighter[] | void> => {
+export const getFighters = async (): Promise<Fighter[] | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const fighters: Fighter[] | void = await axios
     .get(`${API_URL}/find`, {
       headers: {
@@ -43,9 +45,10 @@ export const getFighters = async (jwt: string): Promise<Fighter[] | void> => {
 };
 
 export const getFighterByName = async (
-  jwt: string,
   name: string
 ): Promise<Fighter | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const fighter: Fighter | void = await axios
     .get(`${API_URL}/find/name/${name}`, {
       headers: {
@@ -63,10 +66,9 @@ export const getFighterByName = async (
   return fighter;
 };
 
-export const getFighterById = async (
-  jwt: string,
-  id: number
-): Promise<Fighter | void> => {
+export const getFighterById = async (id: number): Promise<Fighter | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const fighter: Fighter | void = await axios
     .get(`${API_URL}/find/id/${id}`, {
       headers: {

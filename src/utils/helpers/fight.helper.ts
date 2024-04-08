@@ -4,7 +4,9 @@ import Fight from "../../interfaces/fight/Fight.interface";
 
 const API_URL = `${<string>process.env.API_URL}/fights`;
 
-export const getFights = async (jwt: string): Promise<Fight[] | void> => {
+export const getFights = async (): Promise<Fight[] | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const fights: Fight[] | void = await axios
     .get(`${API_URL}/find`, {
       headers: {
@@ -21,10 +23,9 @@ export const getFights = async (jwt: string): Promise<Fight[] | void> => {
   return fights;
 };
 
-export const getFightById = async (
-  jwt: string,
-  id_fight: number
-): Promise<Fight | void> => {
+export const getFightById = async (id_fight: number): Promise<Fight | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const fight: Fight | void = await axios
     .get(`${API_URL}/find/id/${id_fight}`, {
       headers: {
@@ -42,9 +43,10 @@ export const getFightById = async (
 };
 
 export const getFightsByFighterName = async (
-  jwt: string,
   fighterName: string
 ): Promise<Fight[] | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const fight: Fight[] | void = await axios
     .get(`${API_URL}/find`, {
       params: {
@@ -64,10 +66,13 @@ export const getFightsByFighterName = async (
   return fight;
 };
 
-export const saveFight = async (
-  jwt: string,
-  { winner, loser, turns }: Fight
-): Promise<Fight | void> => {
+export const saveFight = async ({
+  winner,
+  loser,
+  turns,
+}: Fight): Promise<Fight | void> => {
+  const jwt =
+    localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
   const fight: Fight | void = await axios
     .post(
       `${API_URL}/save`,

@@ -1,8 +1,7 @@
-import "dotenv/config";
 import axios from "axios";
 import User from "../../interfaces/user/User.interface";
 
-const API_URL = `${<string>process.env.API_URL}/users`;
+const API_URL = `${<string>process.env.NEXT_PUBLIC_API_URL}/users`;
 
 export const register = async ({
   username,
