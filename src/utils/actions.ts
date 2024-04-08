@@ -59,3 +59,38 @@ export async function registerUser(formData: User) {
       : "Registration failed";
   }
 }
+
+export async function getFighters(jwt: string) {
+  try {
+    const response = await axios.get(
+      `${process.env.AUTH_API_URL}/fighters/find`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed");
+  }
+}
+
+
+export async function getFighterById(jwt: string, id: string) {
+  try {
+    const response = await axios.get(
+      `${process.env.AUTH_API_URL}/fighters/find/id/${Number(id)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed");
+  }
+}

@@ -32,7 +32,6 @@ export default async function RootLayout({
             enableColorScheme
             enableSystem
             disableTransitionOnChange
-            forcedTheme="dark"
           >
             <Header />
             {children}
