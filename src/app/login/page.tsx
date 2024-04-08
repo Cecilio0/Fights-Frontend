@@ -1,37 +1,18 @@
 "use client";
 
-import { FormEvent } from "react";
-import { useRouter } from "next/navigation";
-import { authenticate } from "@/utils/helpers/jwt.helper";
+import { LoginWindow } from "@/components/LoginWindow/LoginWindow"
 
-export default function LoginPage() {
-  const router = useRouter();
+type Props = {
+    searchParams?: Record<"callbackUrl" | "error", string>
+}
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-
-    const username: string | void = formData.get("username")?.toString();
-    const password: string | void = formData.get("password")?.toString();
-
-    if (!username || !password) return;
-
-    const response: string | void = await authenticate({ username, password });
-
-    if (!response) return;
-
-    // Check if it's going to be session or local storage
-    localStorage.setItem("jwt-token", response);
-
-    router.push("/");
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="username" name="username" placeholder="Username" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-  );
+export default function LoginPage(props: Props) {
+    return (
+        <div className="flex justify-center items-center min-h-screen">
+            <LoginWindow
+                error={props.searchParams?.error}
+                callbackUrl={props.searchParams?.callbackUrl}
+            />
+        </div>
+    )
 }
