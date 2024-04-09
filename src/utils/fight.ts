@@ -16,8 +16,8 @@ export const simulateFight = async (
   nameFighter1: string,
   nameFighter2: string
 ): Promise<Fight | void> => {
-  const fighter1: Fighter | void = await getFighterByName(jwt, nameFighter1);
-  const fighter2: Fighter | void = await getFighterByName(jwt, nameFighter2);
+  const fighter1: Fighter | void = await getFighterByName(nameFighter1);
+  const fighter2: Fighter | void = await getFighterByName(nameFighter2);
 
   if (
     fighter1 == undefined ||
@@ -129,7 +129,7 @@ const main = async (): Promise<void> => {
     return;
   }
 
-  const names: string[] | void = await getFighterNames(jwt);
+  const names: string[] | void = await getFighterNames();
 
   if (typeof names != "object") {
     return;
@@ -152,5 +152,5 @@ const main = async (): Promise<void> => {
     return;
   }
 
-  await saveFight(jwt, fight);
+  await saveFight(fight);
 };
