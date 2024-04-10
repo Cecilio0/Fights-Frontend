@@ -43,7 +43,7 @@ export const getFightById = async (id_fight: number): Promise<Fight | void> => {
 };
 
 export const getFightsByFighterName = async (
-  fighterName: string
+  fighterName: string,
 ): Promise<Fight[] | void> => {
   const jwt =
     localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");
@@ -86,7 +86,7 @@ export const saveFight = async ({
           "Content-Type": "application/json",
           Authorization: `Bearer ${jwt}`,
         },
-      }
+      },
     )
     .then((response) => {
       const result: Fight = response.data;

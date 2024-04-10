@@ -45,7 +45,7 @@ export const getFighters = async (): Promise<Fighter[] | void> => {
 };
 
 export const getFighterByName = async (
-  name: string
+  name: string,
 ): Promise<Fighter | void> => {
   const jwt =
     localStorage.getItem("jwt-token") || sessionStorage.getItem("jwt-token");

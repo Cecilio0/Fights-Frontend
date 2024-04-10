@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar/Navbar";
 import SessionProvider from "../components/SessionProvider";
 import { getServerSession } from "next-auth";
 import { ThemeProvider } from "next-themes";
@@ -19,7 +18,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const session = await getServerSession();
 
   return (
@@ -28,14 +26,13 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="system"
             enableColorScheme
             enableSystem
             disableTransitionOnChange
           >
             <Header />
             {children}
-
           </ThemeProvider>
         </SessionProvider>
       </body>

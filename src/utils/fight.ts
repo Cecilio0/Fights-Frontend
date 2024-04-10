@@ -14,7 +14,7 @@ import { getRandomInt, getTwoDistinctRandomIntegers } from "./utils";
 export const simulateFight = async (
   jwt: string,
   nameFighter1: string,
-  nameFighter2: string
+  nameFighter2: string,
 ): Promise<Fight | void> => {
   const fighter1: Fighter | void = await getFighterByName(nameFighter1);
   const fighter2: Fighter | void = await getFighterByName(nameFighter2);
@@ -57,7 +57,7 @@ export const simulateFight = async (
     fighter2[fighter2.baseClass.secondaryAttribute as keyof typeof fighter2]
   );
 
-  let turns: Turn[] = [];
+  const turns: Turn[] = [];
   let nextAttacker: number = fighter1.dexterity > fighter2.dexterity ? 1 : -1;
 
   while (fighter1.hp > 0 && fighter2.hp > 0) {
@@ -84,7 +84,7 @@ export const simulateFight = async (
 const simulateTurn = (
   fighter: Fighter,
   mainAttribute: number,
-  secondaryAttribute: number
+  secondaryAttribute: number,
 ): Turn => {
   const middle: number = mainAttribute + secondaryAttribute * 0.5;
   const lowerBound: number = Math.floor(middle * 0.8);
@@ -110,7 +110,7 @@ const simulateTurn = (
     info += `${fighter.name} attacked and hit for `;
   }
 
-  let damage = getRandomInt(lowerBound, higherBound) + abilityDamage;
+  const damage = getRandomInt(lowerBound, higherBound) + abilityDamage;
 
   info += damage;
 
@@ -137,7 +137,7 @@ const main = async (): Promise<void> => {
 
   const indexes: [number, number] = getTwoDistinctRandomIntegers(
     0,
-    names.length - 1
+    names.length - 1,
   );
 
   console.log(indexes);
@@ -145,7 +145,7 @@ const main = async (): Promise<void> => {
   const fight: Fight | void = await simulateFight(
     jwt,
     names[indexes[0]],
-    names[indexes[1]]
+    names[indexes[1]],
   );
 
   if (typeof fight != "object") {

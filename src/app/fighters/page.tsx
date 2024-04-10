@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
-import FightersTable from '@/components/FightersTable/FightersTable';
+import React, { Suspense } from "react";
+import FightersTable from "@/components/FightersTable/FightersTable";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import FightersTableSkeleton from '@/components/FightersTable/FightersTableSkeleton';
+import FightersTableSkeleton from "@/components/FightersTable/FightersTableSkeleton";
 
 export default async function Fighters() {
   const session = await getServerSession();
@@ -18,17 +18,12 @@ export default async function Fighters() {
       </div>
 
       <div className="w-full max-w-5xl mx-auto px-4 flex flex-col space-y-4">
-
-
         <Suspense fallback={<FightersTableSkeleton />}>
           <FightersTable />
         </Suspense>
-
       </div>
 
-      <div className="w-full max-w-5xl mx-auto px-4 mb-10">
-   
-      </div>
+      <div className="w-full max-w-5xl mx-auto px-4 mb-10"></div>
     </div>
   );
 }

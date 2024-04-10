@@ -4,10 +4,10 @@ export function getRandomInt(min: number, max: number): number {
 
 export function getTwoDistinctRandomIntegers(
   min: number,
-  max: number
+  max: number,
 ): [number, number] {
   // Generate two distinct random numbers
-  let num1 = getRandomInt(min, max);
+  const num1 = getRandomInt(min, max);
   let num2 = getRandomInt(min, max);
 
   // If the two numbers are the same, generate the second number again until it's different

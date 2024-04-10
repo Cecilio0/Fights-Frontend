@@ -1,4 +1,4 @@
-import Fighter from '../fighter/Fighter.interface';
+import Fighter from "../fighter/Fighter.interface";
 
 export default interface Turn {
   id_turn?: number;

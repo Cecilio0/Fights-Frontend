@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { authenticateUser } from "../../../../utils/actions";
+import { authenticateUser } from "@/utils/actions";
 
 export const authOptions = {
   providers: [
@@ -14,7 +14,7 @@ export const authOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         try {
           const data = await authenticateUser({
             username: credentials?.username,

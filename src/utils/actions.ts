@@ -1,7 +1,6 @@
 "use server";
 
-import axios from "axios";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { z } from "zod";
 
 type Credentials = {
@@ -23,7 +22,7 @@ export async function authenticateUser(credentials: Credentials) {
   try {
     const response = await axios.post(
       `${process.env.AUTH_API_URL}/users/authenticate`,
-      credentials
+      credentials,
     );
 
     return response.data;
@@ -37,8 +36,7 @@ export async function registerUser(formData: User) {
   const parsed = UserSchema.safeParse(formData);
 
   if (!parsed.success) {
-    const errorMessage = parsed.error.issues[0]?.message;
-    return errorMessage;
+    return parsed.error.issues[0]?.message;
   }
 
   const { username, password } = parsed.data;
@@ -49,10 +47,12 @@ export async function registerUser(formData: User) {
       {
         username,
         password,
-      }
+      },
     );
 
-    return true;
+    if (response.status === 201) {
+      return true;
+    }
   } catch (error: AxiosError | any) {
     return error.response?.data?.message
       ? error.response.data.message
@@ -68,7 +68,7 @@ export async function getFighters(jwt: string) {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -76,7 +76,6 @@ export async function getFighters(jwt: string) {
     throw new Error("Request failed");
   }
 }
-
 
 export async function getFighterById(jwt: string, id: string) {
   try {
@@ -86,7 +85,7 @@ export async function getFighterById(jwt: string, id: string) {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {

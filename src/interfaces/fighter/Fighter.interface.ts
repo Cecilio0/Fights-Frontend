@@ -1,6 +1,6 @@
-import Ability from './Ability.interface';
-import BaseClass from './BaseClass.interface';
-import Subplot from './Subplot.interface';
+import Ability from "./Ability.interface";
+import BaseClass from "./BaseClass.interface";
+import Subplot from "./Subplot.interface";
 
 export default interface Fighter {
   id_fighter: number;
