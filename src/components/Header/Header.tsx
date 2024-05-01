@@ -5,18 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { ToggleMode } from "../ToggleMode/ToggleMode";
-import {
-  Menu,
-  X,
-  LogOut,
-  LogIn,
-  Home,
-  User,
-  Sun,
-  Moon,
-  Eraser,
-  Earth,
-} from "lucide-react";
+import { Menu, X, LogOut, LogIn, Home, User, Eraser } from "lucide-react";
 
 export function Header() {
   const { data: session } = useSession();
@@ -25,6 +14,7 @@ export function Header() {
   const links = [
     { route: "/", name: "Home", protected: false, icon: <Home /> },
     { route: "/fighters", name: "Fighters", protected: true, icon: <User /> },
+    { route: "/fights", name: "Fights", protected: true, icon: <Eraser /> },
   ];
 
   return (
