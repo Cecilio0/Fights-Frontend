@@ -9,17 +9,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-interface Ability {
-  id_ability: number;
-  name: string;
-  power: number;
-}
-
-interface Subplot {
-  id_subplot: number;
-  info: string;
-}
+import Ability from "@/interfaces/fighter/Ability.interface";
+import Subplot from "@/interfaces/fighter/Subplot.interface";
 
 export default async function Profile({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);

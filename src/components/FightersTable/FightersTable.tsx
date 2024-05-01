@@ -11,40 +11,7 @@ import { getFighters } from "@/utils/actions";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { authOptions } from "../../app/api/auth/[...nextauth]/route";
-
-interface BaseClass {
-  id_base_class: number;
-  name: string;
-  mainAttribute: string;
-  secondaryAttribute: string;
-}
-
-interface Ability {
-  id_ability: number;
-  name: string;
-  power: number;
-}
-
-interface Subplot {
-  id_subplot: number;
-  info: string;
-}
-
-interface Fighter {
-  id_fighter: number;
-  name: string;
-  biography: string;
-  baseClass: BaseClass;
-  hp: number;
-  strength: number;
-  dexterity: number;
-  constitution: number;
-  intelligence: number;
-  wisdom: number;
-  charisma: number;
-  abilities: Ability[];
-  subplots: Subplot[];
-}
+import Fighter from "@/interfaces/fighter/Fighter.interface";
 
 export default async function FightersTable() {
   const session = await getServerSession(authOptions);

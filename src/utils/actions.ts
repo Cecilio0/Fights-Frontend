@@ -93,3 +93,20 @@ export async function getFighterById(jwt: string, id: string) {
     throw new Error("Request failed");
   }
 }
+
+export async function getFighterByName(jwt: string, name: string) {
+  try {
+    const response = await axios.get(
+      `${process.env.AUTH_API_URL}/fighters/find/name/${Number(name)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed");
+  }
+}
