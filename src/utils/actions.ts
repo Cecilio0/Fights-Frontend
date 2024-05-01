@@ -110,3 +110,20 @@ export async function getFighterByName(jwt: string, name: string) {
     throw new Error("Request failed");
   }
 }
+
+export async function getFights(jwt: string) {
+  try {
+    const response = await axios.get(
+      `${process.env.AUTH_API_URL}/fights/find`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed");
+  }
+}
