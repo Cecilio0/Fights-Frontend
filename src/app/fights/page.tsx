@@ -1,4 +1,5 @@
 import FightsTable from "@/components/FightsTable/FightsTable";
+import FightsTableSkeleton from "@/components/FightsTable/FightsTableSkeleton";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -17,9 +18,7 @@ export default async function Fights() {
       </div>
 
       <div className="w-full max-w-5xl mx-auto px-4 flex flex-col space-y-4">
-        <Suspense
-        // fallback={<FightsTable />}
-        >
+        <Suspense fallback={<FightsTableSkeleton />}>
           <FightsTable />
         </Suspense>
       </div>
