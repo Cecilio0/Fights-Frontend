@@ -1,13 +1,20 @@
 import dialogBox from "@/resources/persona-dialog-box.png";
+import { Typewriter } from "react-simple-typewriter";
 
 interface FightDialogProps {
+  className: string;
   fighterName: string;
   dialog: string;
 }
-export default function FightDialog({ fighterName, dialog }: FightDialogProps) {
+
+export default function FightDialog({
+  className,
+  fighterName,
+  dialog,
+}: FightDialogProps) {
   return (
     <div
-      className="flex flex-col justify-between w-auto max-w-md h-36 pb-12"
+      className={`${className} flex flex-col justify-between w-[448px] h-36 pb-12`}
       style={{
         backgroundImage: `url('${dialogBox.src}')`,
         backgroundRepeat: "no-repeat",
@@ -18,7 +25,16 @@ export default function FightDialog({ fighterName, dialog }: FightDialogProps) {
       <div className="pl-[68px] pt-[18px]">
         <div className="text-black w-fit -rotate-[16deg]">{fighterName}</div>
       </div>
-      <p className="flex items-center px-20 h-12 text-white">{dialog}</p>
+      <div className="flex items-center px-20 h-12 text-white">
+        <Typewriter
+          words={[dialog]}
+          loop={0} // Infinite loop
+          cursor
+          cursorStyle="|"
+          typeSpeed={70}
+          delaySpeed={1000}
+        />
+      </div>
     </div>
   );
 }
