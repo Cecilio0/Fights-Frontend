@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image'
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -19,9 +20,14 @@ export function Header() {
 
   return (
     <>
-      <header className="flex h-16 w-full shrink-0 items-center border-b px-4 md:px-6">
+      <header className="flex h-16 w-full shrink-0 items-center border-b px-4">
         <Link className="mr-4" href="#">
-          <h1>Fight Club</h1>
+            <Image
+              src="/blackdogtext.png"
+              alt="Black Dog Text"
+              width={200}
+              height={100}
+            />
         </Link>
         {/* Botón de menú para dispositivos móviles */}
         <div className="ml-auto flex md:hidden">
