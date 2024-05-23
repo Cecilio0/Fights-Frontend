@@ -19,6 +19,12 @@ export default function FightReplay({ fight }: FightReplayProps) {
     }
   };
 
+  const onPreviousTurnClick = () => {
+    if (turnCounter - 1 >= 0) {
+      setTurnCounter(turnCounter - 1);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-[784px] h-[488px] bg-black">
       <div
@@ -35,13 +41,25 @@ export default function FightReplay({ fight }: FightReplayProps) {
           dialog={fight.turns[turnCounter].info}
         />
       </div>
-      <div className="flex w-full items-center justify-end mt-2 pr-2">
-        <button
-          className="bg-red-600 rounded-sm py-1 px-2"
-          onClick={onNextTurnClick}
-        >
-          Next Turn
-        </button>
+      <div className="flex w-full items-center justify-between mt-2 px-2">
+        {turnCounter > 0 ? (
+          <button
+            className="bg-red-600 rounded-sm py-1 px-2"
+            onClick={onPreviousTurnClick}
+          >
+            Previous Turn
+          </button>
+        ) : (
+          <div></div> // This is the spacer div
+        )}
+        {turnCounter + 1 < fight.turns.length && (
+          <button
+            className="bg-red-600 rounded-sm py-1 px-2"
+            onClick={onNextTurnClick}
+          >
+            Next Turn
+          </button>
+        )}
       </div>
     </div>
   );

@@ -97,7 +97,7 @@ export async function getFighterById(jwt: string, id: string) {
 export async function getFighterByName(jwt: string, name: string) {
   try {
     const response = await axios.get(
-      `${process.env.AUTH_API_URL}/fighters/find/name/${Number(name)}`,
+      `${process.env.AUTH_API_URL}/fighters/find/name/${name}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,

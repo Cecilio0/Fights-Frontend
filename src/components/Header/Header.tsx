@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { ToggleMode } from "../ToggleMode/ToggleMode";
 import { Menu, X, LogOut, LogIn, Home, User, Eraser } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export function Header() {
   const { data: session } = useSession();
