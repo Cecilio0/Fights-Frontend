@@ -12,6 +12,7 @@ import { useTheme } from "next-themes";
 export function Header() {
   const { data: session } = useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { theme } = useTheme();
 
   const links = [
     { route: "/", name: "Home", protected: false, icon: <Home /> },
@@ -24,7 +25,7 @@ export function Header() {
       <header className="flex h-16 w-full shrink-0 items-center border-b px-4">
         <Link className="mr-4" href="/">
           <Image
-            src="/blackdogtext.png"
+            src={theme === "dark" ? "/blackdog-w.png" : "/blackdog-b.png"}
             alt="Black Dog Text"
             width={200}
             height={100}
