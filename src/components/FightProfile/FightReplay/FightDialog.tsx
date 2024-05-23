@@ -1,7 +1,8 @@
 import dialogBox from "@/resources/persona-dialog-box.png";
 import { Typewriter } from "react-simple-typewriter";
 import { useEffect } from "react";
-import ScrollToBottom, { useScrollToEnd } from "react-scroll-to-bottom";
+import { useScrollToEnd, useScrollToBottom } from "react-scroll-to-bottom";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 interface FightDialogProps {
   className: string;
@@ -16,14 +17,16 @@ export default function FightDialog({
 }: FightDialogProps) {
   function ScrollToEnd() {
     const scrollToEnd = useScrollToEnd();
+    const scrollToBottom = useScrollToBottom();
 
     useEffect(() => {
       const interval = setInterval(() => {
         scrollToEnd();
+        scrollToBottom();
       }, 100);
 
       return () => clearInterval(interval);
-    }, [scrollToEnd]);
+    }, [scrollToEnd, scrollToBottom]);
 
     return null;
   }

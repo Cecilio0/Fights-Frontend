@@ -5,6 +5,8 @@ import Fight from "@/interfaces/fight/Fight.interface";
 import { useState } from "react";
 import background from "@/resources/p5-velvet-room.jpg";
 import FightDialog from "./FightDialog";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 interface FightReplayProps {
   fight: Fight;
@@ -25,8 +27,9 @@ export default function FightReplay({ fight }: FightReplayProps) {
     }
   };
 
+  const progress = (turnCounter / (fight.turns.length - 1)) * 100;
   return (
-    <div className="flex flex-col items-center justify-center w-[784px] h-[488px] bg-black">
+    <div className="flex flex-col items-center justify-center w-[784px] h-[488px] ">
       <div
         className="grid grid-rows-3 grid-flow-col place-items-center w-[768px] h-[432px]"
         style={{
@@ -41,25 +44,23 @@ export default function FightReplay({ fight }: FightReplayProps) {
           dialog={fight.turns[turnCounter].info}
         />
       </div>
-      <div className="flex w-full items-center justify-between mt-2 px-2">
-        {turnCounter > 0 ? (
-          <button
-            className="bg-red-600 rounded-sm py-1 px-2"
-            onClick={onPreviousTurnClick}
-          >
-            Previous Turn
-          </button>
-        ) : (
-          <div></div> // This is the spacer div
-        )}
-        {turnCounter + 1 < fight.turns.length && (
-          <button
-            className="bg-red-600 rounded-sm py-1 px-2"
-            onClick={onNextTurnClick}
-          >
-            Next Turn
-          </button>
-        )}
+      <div className="flex w-5/6 items-center justify-between mt-2 px-2">
+        <div className="w-1/4 text-center">
+          {turnCounter > 0 && (
+            <Button onClick={onPreviousTurnClick}>Previous Turn</Button>
+          )}
+        </div>
+        <div className="w-1/2 text-center">
+          Turn: {turnCounter + 1}/{fight.turns.length}
+        </div>{" "}
+        <div className="w-1/4 text-center">
+          {turnCounter + 1 < fight.turns.length && (
+            <Button onClick={onNextTurnClick}>Next Turn</Button>
+          )}
+        </div>
+      </div>
+      <div className="mt-[12px] w-5/6 justify-center flex align-middle">
+        <Progress value={progress} />
       </div>
     </div>
   );
