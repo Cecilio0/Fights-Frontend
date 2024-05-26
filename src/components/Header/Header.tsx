@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, lazy } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { ToggleMode } from "../ToggleMode/ToggleMode";
 import { Menu, X, LogOut, LogIn, Home, User, Eraser } from "lucide-react";
 import { useTheme } from "next-themes";
+
+const ToggleMode = lazy(() => import("../ToggleMode/ToggleMode"));
 
 export function Header() {
   const { data: session } = useSession();

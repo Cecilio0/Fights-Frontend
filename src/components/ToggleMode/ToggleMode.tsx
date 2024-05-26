@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 
-export function ToggleMode() {
+export default function ToggleMode() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -18,7 +18,13 @@ export function ToggleMode() {
   };
 
   // Hydration 😡
-  if (!mounted) return null;
+  if (!mounted)
+    return (
+      <Button variant="outline" size="icon">
+        {/* <Moon className="h-[1.2rem] w-[1.2rem]" /> */}
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    );
 
   return (
     <Button variant="outline" size="icon" onClick={handleClick}>
