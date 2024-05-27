@@ -130,7 +130,7 @@ export default function CreateFightPage() {
     const savedFight = await saveFight(session?.accessToken, fight);
 
     router.push(`/fights/${savedFight.id_fight}`);
-    setIsLoading(false);
+    // setIsLoading(false);
   }
 
   return (
