@@ -17,10 +17,11 @@ export default async function FightProfile({
   return (
     <div key="1" className="w-full py-6 space-y-6">
       <div className="container space-y-6 px-4 md:px-6">
-        {/* <div className="grid md:grid-cols-[250px,1fr] items-start gap-6 lg:gap-10">
-          <p>Winner: {fight.winner.name}</p>
-          <p>Loser: {fight.loser.name}</p>
-        </div> */}
+        <div className="grid md:grid-cols-[250px,1fr] items-start gap-6 lg:gap-10">
+          <p>
+            {fight.winner.name} vs. {fight.loser.name}
+          </p>
+        </div>
         <ScrollArea className="h-[200px] rounded-md p-4">
           {fight.turns.map((turn: Turn, index: number) => (
             <>

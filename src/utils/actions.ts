@@ -2,6 +2,7 @@
 import jwt from "jsonwebtoken";
 import axios, { AxiosError } from "axios";
 import { z } from "zod";
+import Fight from "../interfaces/fight/Fight.interface";
 
 type Credentials = {
   username: string;
@@ -89,7 +90,7 @@ export async function getFighters(token: string | undefined) {
   }
 }
 
-export async function getFighterById(token: string | undefined, id: string) {
+export async function getFighterById(token: string | undefined, id: number) {
   if (isTokenExpired(token)) {
     return [];
   }
@@ -159,6 +160,41 @@ export async function getFightById(token: string | undefined, id: string) {
   try {
     const response = await axios.get(
       `${process.env.AUTH_API_URL}/fights/find/id/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed");
+  }
+}
+
+export async function saveFight(
+  token: string | undefined,
+  fight: Fight | void,
+) {
+  if (isTokenExpired(token)) {
+    return [];
+  }
+
+  if (!fight) {
+    throw new Error("Fight is undefined");
+  }
+
+  const { winner, loser, turns } = fight;
+
+  try {
+    const response = await axios.post(
+      `${process.env.AUTH_API_URL}/fights/save`,
+      {
+        winner,
+        loser,
+        turns,
+      },
       {
         headers: {
           Authorization: `Bearer ${token}`,

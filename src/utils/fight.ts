@@ -5,7 +5,7 @@ import { getFighterByName } from "./actions";
 import { getRandomInt } from "./utils";
 
 export const simulateFight = async (
-  jwt: string,
+  jwt: string | undefined,
   nameFighter1: string,
   nameFighter2: string,
 ): Promise<Fight | void> => {
