@@ -1,8 +1,7 @@
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getFighterById } from "@/utils/actions";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../app/api/auth/[...nextauth]/route";
+import { auth } from "@/auth";
 import {
   Accordion,
   AccordionContent,
@@ -13,8 +12,8 @@ import Ability from "@/interfaces/fighter/Ability.interface";
 import Subplot from "@/interfaces/fighter/Subplot.interface";
 
 export default async function Profile({ params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  const fighter = await getFighterById(session?.jwt, params.id);
+  const session = await auth();
+  const fighter = await getFighterById(session?.accessToken, params.id);
 
   return (
     <div key="1" className="w-full py-6 space-y-6">

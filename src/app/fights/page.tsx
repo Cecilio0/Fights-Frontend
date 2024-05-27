@@ -5,8 +5,9 @@ import { Suspense } from "react";
 export default async function Fights() {
   return (
     <div className="flex flex-col items-center min-h-screen pt-20">
-      <div className="w-full max-w-5xl mx-auto px-4">
+      <div className="w-full max-w-5xl mx-auto px-4 flex justify-between items-center">
         <h1 className="mb-5 text-2xl font-bold text-left">Fights</h1>
+        <button className="mb-5">Button</button>
       </div>
 
       <div className="w-full max-w-5xl mx-auto px-4 flex flex-col space-y-4">
