@@ -24,6 +24,7 @@ type Props = {
 };
 
 export function LoginWindow(props: Props) {
+  const [error, setError] = useState<string>();
   const router = useRouter();
   const username = useRef("");
   const password = useRef("");
@@ -42,10 +43,10 @@ export function LoginWindow(props: Props) {
       setIsLoading(false);
       router.push(props.callbackUrl ?? "/");
     } else {
+      setError("Auth failed");
       setShake(true);
       setTimeout(() => setShake(false), 500);
       setIsLoading(false);
-      router.push(`/login?error=${res.error}`);
     }
   };
 
@@ -86,11 +87,11 @@ export function LoginWindow(props: Props) {
               {isLoading ? <Spinner /> : "Sign in"}
             </Button>
 
-            {props.error && (
+            {error && (
               <div
                 className={`mt-4 w-3/4 mx-auto text-center bg-red-500 text-white font-bold py-2 px-4 rounded shadow-lg text-sm ${styles.slideDown}`}
               >
-                {props.error}
+                {error}
               </div>
             )}
           </div>

@@ -8,14 +8,13 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { getFighters } from "@/utils/actions";
-import { getServerSession } from "next-auth";
+import { auth } from "@/auth";
 import Link from "next/link";
-import { authOptions } from "../../app/api/auth/[...nextauth]/route";
 import Fighter from "@/interfaces/fighter/Fighter.interface";
 
 export default async function FightersTable() {
-  const session = await getServerSession(authOptions);
-  const fighters = await getFighters(session?.jwt);
+  const session = await auth();
+  const fighters = await getFighters(session?.accessToken);
 
   return (
     <div className="mx-auto max-w-5xl">

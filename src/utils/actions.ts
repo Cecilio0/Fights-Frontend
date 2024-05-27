@@ -1,5 +1,5 @@
 "use server";
-
+import jwt from "jsonwebtoken";
 import axios, { AxiosError } from "axios";
 import { z } from "zod";
 
@@ -18,6 +18,16 @@ const UserSchema = z.object({
   password: z.string().min(8),
 });
 
+function isTokenExpired(token: string | undefined): boolean {
+  if (token) {
+    const decodedToken: any = jwt.decode(token);
+    if (decodedToken.exp < Date.now() / 1000) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export async function authenticateUser(credentials: Credentials) {
   try {
     const response = await axios.post(
@@ -27,7 +37,6 @@ export async function authenticateUser(credentials: Credentials) {
 
     return response.data;
   } catch (error) {
-    console.error(error);
     throw new Error("Authentication failed");
   }
 }
@@ -60,13 +69,16 @@ export async function registerUser(formData: User) {
   }
 }
 
-export async function getFighters(jwt: string) {
+export async function getFighters(token: string | undefined) {
+  if (isTokenExpired(token)) {
+    return [];
+  }
   try {
     const response = await axios.get(
       `${process.env.AUTH_API_URL}/fighters/find`,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -77,13 +89,16 @@ export async function getFighters(jwt: string) {
   }
 }
 
-export async function getFighterById(jwt: string, id: string) {
+export async function getFighterById(token: string | undefined, id: string) {
+  if (isTokenExpired(token)) {
+    return [];
+  }
   try {
     const response = await axios.get(
       `${process.env.AUTH_API_URL}/fighters/find/id/${Number(id)}`,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -94,13 +109,19 @@ export async function getFighterById(jwt: string, id: string) {
   }
 }
 
-export async function getFighterByName(jwt: string, name: string) {
+export async function getFighterByName(
+  token: string | undefined,
+  name: string,
+) {
+  if (isTokenExpired(token)) {
+    return [];
+  }
   try {
     const response = await axios.get(
       `${process.env.AUTH_API_URL}/fighters/find/name/${name}`,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -111,13 +132,16 @@ export async function getFighterByName(jwt: string, name: string) {
   }
 }
 
-export async function getFights(jwt: string) {
+export async function getFights(token: string | undefined) {
+  if (isTokenExpired(token)) {
+    return [];
+  }
   try {
     const response = await axios.get(
       `${process.env.AUTH_API_URL}/fights/find`,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -128,13 +152,16 @@ export async function getFights(jwt: string) {
   }
 }
 
-export async function getFightById(jwt: string, id: string) {
+export async function getFightById(token: string | undefined, id: string) {
+  if (isTokenExpired(token)) {
+    return [];
+  }
   try {
     const response = await axios.get(
       `${process.env.AUTH_API_URL}/fights/find/id/${id}`,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );

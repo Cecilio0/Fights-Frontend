@@ -1,6 +1,5 @@
 import { getFightById } from "@/utils/actions";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../app/api/auth/[...nextauth]/route";
+import { auth } from "@/auth";
 import Fight from "@/interfaces/fight/Fight.interface";
 import Turn from "@/interfaces/fight/Turn.interface";
 import FightReplay from "./FightReplay/FightReplay";
@@ -12,8 +11,8 @@ export default async function FightProfile({
 }: {
   params: { id: string };
 }) {
-  const session = await getServerSession(authOptions);
-  const fight: Fight = await getFightById(session?.jwt, params.id);
+  const session = await auth();
+  const fight: Fight = await getFightById(session?.accessToken, params.id);
 
   return (
     <div key="1" className="w-full py-6 space-y-6">

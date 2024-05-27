@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, lazy } from "react";
+import { useState, lazy, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -20,6 +20,12 @@ export function Header() {
     { route: "/fighters", name: "Fighters", protected: true, icon: <User /> },
     { route: "/fights", name: "Fights", protected: true, icon: <Eraser /> },
   ];
+
+  useEffect(() => {
+    if (session && session?.isExpired) {
+      signOut();
+    }
+  }, [session]);
 
   return (
     <>

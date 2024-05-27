@@ -1,5 +1,4 @@
 "use client";
-
 import { LoginWindow } from "@/components/LoginWindow/LoginWindow";
 
 type Props = {
@@ -9,10 +8,7 @@ type Props = {
 export default function LoginPage(props: Props) {
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <LoginWindow
-        error={props.searchParams?.error}
-        callbackUrl={props.searchParams?.callbackUrl}
-      />
+      <LoginWindow error={props.searchParams?.error} />
     </div>
   );
 }
