@@ -36,6 +36,9 @@ import { z } from "zod";
 import { getFighterById } from "@/utils/actions";
 import { simulateFight } from "@/utils/fight";
 import { useRouter } from "next/navigation";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import Image from "next/image";
 
 type Fighter = {
   id_fighter: number;
@@ -131,175 +134,206 @@ export default function CreateFightPage() {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen pt-20">
-      <div className="w-full max-w-5xl mx-auto px-4 flex justify-between items-center">
-        <h1 className="mb-5 text-2xl font-bold text-left">Simulate a Fight</h1>
+    <div className="relative">
+      <div className="flex items-center">
+        <div className="absolute bottom-20 left-0 ">
+          <Image
+            src="https://perronegro.blob.core.windows.net/perronegro/dong.jpeg"
+            alt="description_of_image"
+            className="rounded-full w-[200px] h-auto ml-10"
+            width={200}
+            height={200}
+          />
+          <h2 className="ml-14">DON G IS WATCHING 🕵️</h2>
+        </div>
       </div>
 
-      <div className="w-full max-w-5xl mx-auto px-4 flex justify-between items-center mt-12">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-            <div className="w-full max-w-5xl mx-auto px-4 flex justify-between items-center mt-12">
-              {/* Group 1 */}
-              <div className="flex flex-col">
-                <FormField
-                  control={form.control}
-                  name="id_fighter1"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Fighter 1</FormLabel>
-                      <Popover open={open1} onOpenChange={setOpen1}>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground",
-                              )}
-                            >
-                              {field.value
-                                ? fighters.find(
-                                    (fighter) =>
-                                      fighter.id_fighter ===
-                                      Number(field.value),
-                                  )?.name
-                                : "Select fighter"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandInput placeholder="Search fighter..." />
-                            <CommandList>
-                              <CommandEmpty>No fighter found.</CommandEmpty>
-                              <CommandGroup>
-                                {fighters.map((fighter) => (
-                                  <CommandItem
-                                    value={fighter.name}
-                                    key={fighter.id_fighter}
-                                    onSelect={() => {
-                                      form.setValue(
-                                        "id_fighter1",
-                                        fighter.id_fighter,
-                                      );
-                                      setOpen1(false);
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
+      <div className="flex flex-col items-center min-h-screen pt-20">
+        <div className="w-full max-w-5xl mx-auto px-4 flex justify-between items-center">
+          <h1 className="mb-5 text-2xl font-bold text-left">
+            Simulate a Fight
+          </h1>
+        </div>
+
+        <div className="w-full max-w-5xl mx-auto px-4 flex justify-between items-center mt-12">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+              <div className="w-full max-w-5xl mx-auto px-4 flex justify-between items-center mt-12">
+                {/* Group 1 */}
+                <div className="flex flex-col">
+                  <FormField
+                    control={form.control}
+                    name="id_fighter1"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Fighter 1</FormLabel>
+                        <Popover open={open1} onOpenChange={setOpen1}>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-[200px] justify-between",
+                                  !field.value && "text-muted-foreground",
+                                )}
+                              >
+                                {field.value
+                                  ? fighters.find(
+                                      (fighter) =>
                                         fighter.id_fighter ===
-                                          Number(field.value)
-                                          ? "opacity-100"
-                                          : "opacity-0",
-                                      )}
-                                    />
-                                    {fighter.name}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                                        Number(field.value),
+                                    )?.name
+                                  : "Select fighter"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[200px] p-0">
+                            <Command>
+                              <CommandInput placeholder="Search fighter..." />
+                              <CommandList>
+                                <CommandEmpty>No fighter found.</CommandEmpty>
+                                <CommandGroup>
+                                  {fighters.map((fighter) => (
+                                    <CommandItem
+                                      value={fighter.name}
+                                      key={fighter.id_fighter}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          "id_fighter1",
+                                          fighter.id_fighter,
+                                        );
+                                        setOpen1(false);
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          fighter.id_fighter ===
+                                            Number(field.value)
+                                            ? "opacity-100"
+                                            : "opacity-0",
+                                        )}
+                                      />
+                                      {fighter.name}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-              {/* Middle text */}
-              <div className="text-center">
-                <span>vs</span>
-              </div>
+                {/* Middle text */}
+                <div className="text-center">
+                  <span>vs</span>
+                </div>
 
-              {/* Group2 */}
-              <div className="flex flex-col">
-                <FormField
-                  control={form.control}
-                  name="id_fighter2"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Fighter 2</FormLabel>
-                      <Popover open={open2} onOpenChange={setOpen2}>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-[200px] justify-between",
-                                !field.value && "text-muted-foreground",
-                              )}
-                            >
-                              {field.value
-                                ? fighters.find(
-                                    (fighter) =>
-                                      fighter.id_fighter ===
-                                      Number(field.value),
-                                  )?.name
-                                : "Select fighter"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandInput placeholder="Search fighter..." />
-                            <CommandList>
-                              <CommandEmpty>No fighter found.</CommandEmpty>
-                              <CommandGroup>
-                                {fighters.map((fighter) => (
-                                  <CommandItem
-                                    value={fighter.name}
-                                    key={fighter.id_fighter}
-                                    onSelect={() => {
-                                      form.setValue(
-                                        "id_fighter2",
-                                        fighter.id_fighter,
-                                      );
-                                      setOpen2(false);
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
+                {/* Group2 */}
+                <div className="flex flex-col">
+                  <FormField
+                    control={form.control}
+                    name="id_fighter2"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Fighter 2</FormLabel>
+                        <Popover open={open2} onOpenChange={setOpen2}>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  "w-[200px] justify-between",
+                                  !field.value && "text-muted-foreground",
+                                )}
+                              >
+                                {field.value
+                                  ? fighters.find(
+                                      (fighter) =>
                                         fighter.id_fighter ===
-                                          Number(field.value)
-                                          ? "opacity-100"
-                                          : "opacity-0",
-                                      )}
-                                    />
-                                    {fighter.name}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                                        Number(field.value),
+                                    )?.name
+                                  : "Select fighter"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[200px] p-0">
+                            <Command>
+                              <CommandInput placeholder="Search fighter..." />
+                              <CommandList>
+                                <CommandEmpty>No fighter found.</CommandEmpty>
+                                <CommandGroup>
+                                  {fighters.map((fighter) => (
+                                    <CommandItem
+                                      value={fighter.name}
+                                      key={fighter.id_fighter}
+                                      onSelect={() => {
+                                        form.setValue(
+                                          "id_fighter2",
+                                          fighter.id_fighter,
+                                        );
+                                        setOpen2(false);
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          fighter.id_fighter ===
+                                            Number(field.value)
+                                            ? "opacity-100"
+                                            : "opacity-0",
+                                        )}
+                                      />
+                                      {fighter.name}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="flex justify-center mt-6">
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? <Loader2 className="animate-spin" /> : "Simulate"}
-              </Button>{" "}
-            </div>
-          </form>
-        </Form>
+              <div className="flex justify-center mt-6">
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Simulate"
+                  )}
+                </Button>{" "}
+              </div>
+            </form>
+          </Form>
+        </div>
+
+        <div className="w-full max-w-5xl mx-auto px-4 flex flex-col space-y-4"></div>
+
+        <div className="w-full max-w-5xl mx-auto px-4 mb-10"></div>
+        <div className="mt-[500px] w-[800px]">
+          {" "}
+          <AudioPlayer
+            layout="horizontal"
+            volume={0.3}
+            loop
+            src="https://perronegro.blob.core.windows.net/perronegro/relaxing.mp3"
+            autoPlay
+          />
+        </div>
       </div>
-
-      <div className="w-full max-w-5xl mx-auto px-4 flex flex-col space-y-4"></div>
-
-      <div className="w-full max-w-5xl mx-auto px-4 mb-10"></div>
     </div>
   );
 }

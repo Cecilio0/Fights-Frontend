@@ -1,7 +1,9 @@
+"use client";
+import React, { useEffect, useState } from "react";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getFighterById } from "@/utils/actions";
-import { auth } from "@/auth";
+import { getFighterById, getFightsByFighterId } from "@/utils/actions";
+import { useSession } from "next-auth/react";
 import {
   Accordion,
   AccordionContent,
@@ -10,11 +12,44 @@ import {
 } from "@/components/ui/accordion";
 import Ability from "@/interfaces/fighter/Ability.interface";
 import Subplot from "@/interfaces/fighter/Subplot.interface";
+import { useRouter } from "next/navigation";
+import ProfileSkeleton from "./ProfileSkeleton";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 
-export default async function Profile({ params }: { params: { id: string } }) {
-  const session = await auth();
-  const fighter = await getFighterById(session?.accessToken, params.id);
+export default function Profile({ params }: { params: { id: string } }) {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const [fighter, setFighter] = useState(null);
+  const [fights, setFights] = useState(null);
+  const [victories, setVictories] = useState(0);
+  const [losses, setLosses] = useState(0);
 
+  useEffect(() => {
+    if (session) {
+      getFighterById(session.accessToken, +params.id).then((fighterData) =>
+        setFighter(fighterData),
+      );
+      getFightsByFighterId(session.accessToken, +params.id).then(
+        (fightsData) => {
+          setFights(fightsData);
+          setVictories(
+            fightsData.filter(
+              (fight) => +fight.winner.id_fighter === +params.id,
+            ).length,
+          );
+          setLosses(
+            fightsData.filter((fight) => +fight.loser.id_fighter === +params.id)
+              .length,
+          );
+        },
+      );
+    }
+  }, [session, params.id]);
+
+  if (!fighter || !fights) {
+    return <ProfileSkeleton />;
+  }
   return (
     <div key="1" className="w-full py-6 space-y-6">
       <div className="container space-y-6 px-4 md:px-6">
@@ -42,6 +77,18 @@ export default async function Profile({ params }: { params: { id: string } }) {
               {fighter.baseClass.secondaryAttribute.charAt(0).toUpperCase() +
                 fighter.baseClass.secondaryAttribute.slice(1)}
             </Badge>
+            <Separator />
+
+            <div className="flex h-5 items-center space-x-4 text-sm justify-between">
+              <div>Victories</div>
+              <Separator orientation="vertical" />
+              <div>{victories}</div>
+            </div>
+            <div className="flex h-5 items-center space-x-4 text-sm justify-between">
+              <div>Defeats</div>
+              <Separator orientation="vertical" />
+              <div>{losses}</div>
+            </div>
           </div>
           <div className="mx-auto max-w-4xl space-y-4">
             <Card>
@@ -140,6 +187,36 @@ export default async function Profile({ params }: { params: { id: string } }) {
                     </AccordionItem>
                   ))}
                 </Accordion>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Fights</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {fights.length > 0 ? (
+                  fights.slice(0, 5).map((fight) => (
+                    <div
+                      key={fight.id_fight}
+                      className="flex justify-between items-center mb-2"
+                    >
+                      <div>
+                        {fight.winner.name} vs {fight.loser.name}
+                      </div>
+                      <Button
+                        onClick={() =>
+                          router.push(`/fights/${fight.id_fight}`, {
+                            scroll: false,
+                          })
+                        }
+                      >
+                        View Fight
+                      </Button>
+                    </div>
+                  ))
+                ) : (
+                  <p>No recent fights</p>
+                )}
               </CardContent>
             </Card>
           </div>

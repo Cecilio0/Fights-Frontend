@@ -207,3 +207,37 @@ export async function saveFight(
     throw new Error("Request failed");
   }
 }
+
+export async function getFightsByFighterId(
+  token: string | undefined,
+  fighter_id: number,
+) {
+  if (isTokenExpired(token)) {
+    return [];
+  }
+
+  try {
+    const response = await axios.get(
+      `${process.env.AUTH_API_URL}/fights/find`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    const allFights = response.data;
+
+    // Filter fights where the given fighter_id is involved
+    const filteredFights = allFights.filter(
+      (fight: Fight) =>
+        fight.winner.id_fighter === fighter_id ||
+        fight.loser.id_fighter === fighter_id,
+    );
+
+    return filteredFights;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Request failed");
+  }
+}

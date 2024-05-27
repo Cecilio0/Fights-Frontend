@@ -35,11 +35,10 @@ export default async function FightersTable() {
         <TableBody>
           {fighters.map((fighter: Fighter) => (
             <TableRow key={fighter.id_fighter}>
-              <TableCell className="font-medium">
-                <Link href={`/fighters/${fighter.id_fighter}`}>
-                  {fighter.name}
-                </Link>
-              </TableCell>
+              <Link href={`/fighters/${fighter.id_fighter}`}>
+                <TableCell className="font-medium">{fighter.name}</TableCell>
+              </Link>
+
               <TableCell>
                 <Link href={`/fighters/${fighter.id_fighter}`}>
                   <Badge>

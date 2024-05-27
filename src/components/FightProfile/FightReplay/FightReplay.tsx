@@ -8,6 +8,8 @@ import FightDialog from "./FightDialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 interface FightReplayProps {
   fight: Fight;
@@ -69,6 +71,17 @@ export default function FightReplay({ fight }: FightReplayProps) {
         <div className="mt-[12px] w-5/6 justify-center flex align-middle">
           <Progress value={progress} />
         </div>
+      </div>
+
+      <div className="mt-[200px]">
+        {" "}
+        <AudioPlayer
+          layout="horizontal"
+          volume={0.3}
+          loop
+          src="https://perronegro.blob.core.windows.net/perronegro/epic.mp3"
+          autoPlay
+        />
       </div>
     </AspectRatio>
   );
